@@ -1,5 +1,7 @@
 # adwaita-mono-nerd-font
 
+![Screenshot From 2025-03-27 13-03-17](https://github.com/user-attachments/assets/fdcd1d81-4a8d-4d4e-ae60-72895b2c3afd)
+
 This repo contains the files for Nerd Font patched [Adwaita Mono](https://blogs.gnome.org/monster/introducing-adwaita-fonts/) font. 
 It has the patched Nerd Font files already so you don't have to run font-forge to create them.
 
