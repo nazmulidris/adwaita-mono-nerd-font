@@ -2,7 +2,7 @@
 
 ![Screenshot From 2025-03-27 13-03-17](https://github.com/user-attachments/assets/fdcd1d81-4a8d-4d4e-ae60-72895b2c3afd)
 
-This repo contains the files for Nerd Font patched [Adwaita Mono](https://blogs.gnome.org/monster/introducing-adwaita-fonts/) font. 
+This repo contains the files for Nerd Font patched [Adwaita Mono](https://blogs.gnome.org/monster/introducing-adwaita-fonts/) font.
 It has the patched Nerd Font files already so you don't have to run font-forge to create them.
 
 It uses this script to make this happen, using the following repos:
@@ -48,10 +48,24 @@ echo (set_color green)"Copying AdwaitaMono fonts to "(set_color yellow)"adwaitam
 cp "$adwaita_mono_dir"/* adwaitamono/
 
 echo (set_color green)"Patching AdwaitaMono fonts to "(set_color yellow)"adwaitamonopatched"(set_color green)" directory..."(set_color normal)
-./font-patcher adwaitamono/AdwaitaMono-BoldItalic.ttf --outputdir=adwaitamonopatched
-./font-patcher adwaitamono/AdwaitaMono-Italic.ttf --outputdir=adwaitamonopatched
-./font-patcher adwaitamono/AdwaitaMono-Bold.ttf --outputdir=adwaitamonopatched
-./font-patcher adwaitamono/AdwaitaMono-Regular.ttf --outputdir=adwaitamonopatched
+
+set adwaitamonofonts (ls adwaitamono/*.ttf | string replace "*" "")
+
+# Common glyph sets include:
+#     --fontawesome (Font Awesome)
+#     --fontawesomeextension (Font Awesome Extension)
+#     --material (Material Design Icons)
+#     --octicons (Octicons)
+#     --powersymbols (Powerline Symbols)
+#     --powerline (Powerline Symbols)
+#     --powerlineextra (Powerline Extra Symbols)
+#     --devicons (Devicons)
+#     --weather (Weather Icons)
+#     --custom (Custom Glyphs)
+
+for item in $adwaitamonofonts
+    ./font-patcher "$item" --complete --outputdir=adwaitamonopatched
+end
 
 echo (set_color green)"Copying patched fonts to "(set_color yellow)"adwaita-nerd-fonts"(set_color green)" directory..."(set_color normal)
 if test -d "$adwaita_nerd_fonts_dir"
@@ -59,4 +73,8 @@ if test -d "$adwaita_nerd_fonts_dir"
 end
 mkdir -p $adwaita_nerd_fonts_dirmkdir -p $adwaita_nerd_fonts_dir
 cp adwaitamonopatched/* $adwaita_nerd_fonts_dir
+
+echo (set_color blue)Reset font cache(set_color normal)
+sudo fc-cache -f -v >/dev/null
+sudo dpkg-reconfigure fontconfig
 ```
